@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    // ==================== СЛАЙДЕРЫ С FADE ====================
     const mainSlider = new Swiper('.main-slider .swiper', {
         effect: 'fade',
         fadeEffect: { crossFade: true },
@@ -27,7 +26,6 @@ document.addEventListener('DOMContentLoaded', function() {
         },
     });
 
-    // Заполнение слайдера реализованных проектов
     const addProjectsSlides = () => {
         const wrapper = document.querySelector('.projects-slider .swiper-wrapper');
         if (!wrapper) return;
@@ -57,7 +55,6 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     addProjectsSlides();
 
-    // ==================== МОДАЛКА ПРОЕКТОВ ====================
     const modal = document.getElementById('project-modal');
     const closeModalBtn = document.querySelector('.modal-close');
     const modalImg = document.getElementById('modal-image');
@@ -89,15 +86,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const desc = projectDescriptions[title] || 'Подробности уточняйте у менеджера. Современное модульное решение с высоким качеством материалов и индивидуальным подходом.';
         modalDesc.textContent = desc;
         modal.style.display = 'flex';
-        const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-        document.body.style.overflow = 'hidden';
-        document.body.style.paddingRight = scrollbarWidth + 'px';
     }
 
     function closeModal() {
         modal.style.display = 'none';
-        document.body.style.overflow = '';
-        document.body.style.paddingRight = '';
     }
 
     closeModalBtn.addEventListener('click', closeModal);
@@ -118,7 +110,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // ==================== ТАБЫ ====================
     const tabs = document.querySelectorAll('.products-tab');
     const grids = document.querySelectorAll('.products-grid');
     tabs.forEach(tab => {
@@ -131,7 +122,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // ==================== КНОПКА "НАВЕРХ" ====================
     const btnUp = document.querySelector('.btn-up');
     window.addEventListener('scroll', () => {
         const footer = document.querySelector('footer');
@@ -146,46 +136,51 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     btnUp.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-    // ==================== МОБИЛЬНОЕ МЕНЮ ====================
     const burger = document.querySelector('.header-burger');
     const mobileMenu = document.querySelector('.mobile-menu');
-    const body = document.body;
+
+    function toggleMenu(open) {
+        if (open === undefined) {
+            open = !mobileMenu.classList.contains('active');
+        }
+        if (open) {
+            mobileMenu.classList.add('active');
+            burger?.classList.add('open-menu');
+        } else {
+            mobileMenu.classList.remove('active');
+            burger?.classList.remove('open-menu');
+        }
+    }
+
     if (burger) {
         burger.addEventListener('click', function(e) {
             e.stopPropagation();
-            this.classList.toggle('open-menu');
-            mobileMenu.classList.toggle('active');
-            body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
-        });
-        document.addEventListener('click', (e) => {
-            if (mobileMenu.classList.contains('active') && !mobileMenu.contains(e.target) && !burger.contains(e.target)) {
-                burger.classList.remove('open-menu');
-                mobileMenu.classList.remove('active');
-                body.style.overflow = '';
-            }
+            toggleMenu();
         });
     }
-    document.querySelectorAll('.mobile-menu a').forEach(link => link.addEventListener('click', () => {
-        burger?.classList.remove('open-menu');
-        mobileMenu?.classList.remove('active');
-        body.style.overflow = '';
-    }));
 
-    // ==================== КНОПКА ЗАКРЫТИЯ МОБИЛЬНОГО МЕНЮ (КРЕСТИК) ====================
+    document.addEventListener('click', (e) => {
+        if (mobileMenu.classList.contains('active') && 
+            !mobileMenu.contains(e.target) && 
+            !burger?.contains(e.target)) {
+            toggleMenu(false);
+        }
+    });
+
+    document.querySelectorAll('.mobile-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+            toggleMenu(false);
+        });
+    });
+
     const menuClose = document.querySelector('.mobile-menu-close');
     if (menuClose) {
         menuClose.addEventListener('click', function(e) {
             e.stopPropagation();
-            const burger = document.querySelector('.header-burger');
-            const mobileMenu = document.querySelector('.mobile-menu');
-            const body = document.body;
-            burger?.classList.remove('open-menu');
-            mobileMenu?.classList.remove('active');
-            body.style.overflow = '';
+            toggleMenu(false);
         });
     }
 
-    // ==================== ПЛАВНАЯ ПРОКРУТКА ====================
     document.querySelectorAll('a[data-link]').forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
@@ -215,7 +210,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // ==================== КВИЗ ====================
     (function() {
         const container = document.querySelector('.quiz-container');
         if (!container) return;

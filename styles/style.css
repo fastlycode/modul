@@ -769,7 +769,6 @@ li.menu-item:last-child {
   color: #bdff07;
 }
 
-/* ===== БУРГЕР МЕНЮ ===== */
 .header {
   position: relative;
   z-index: 10;
@@ -809,7 +808,6 @@ li.menu-item:last-child {
   border-radius: 0;
 }
 
-/* Переопределяем отступы и трансформацию для пунктов меню в мобильной версии */
 .mobile-menu li.menu-item {
   margin: 20px 0;
   transform: none;
@@ -826,7 +824,6 @@ li.menu-item:last-child {
   color: #bdff07;
 }
 
-/* ===== КНОПКА ЗАКРЫТИЯ ===== */
 .mobile-menu-close {
   position: absolute;
   top: 50px;
@@ -899,7 +896,6 @@ scale:1.4;
   background: #2a2a2a;
 }
 
-/* ===== АНИМАЦИЯ ГРАДИЕНТА (только для нужных элементов) ===== */
 @property --angle {
   syntax: '<angle>';
   initial-value: 0deg;
@@ -1527,8 +1523,28 @@ scale:1.4;
   transform: scale(1.05);
   color: #000;
 }
+/* Убираем обводку при фокусе у всех элементов */
+*:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
 
-/* ===== МЕДИА-ЗАПРОСЫ ===== */
+/* Специально для ссылок в меню (и десктоп, и мобильное) */
+.menu-item a:focus,
+.menu-item a:focus-visible,
+.mobile-menu .menu-item a:focus,
+.mobile-menu .menu-item a:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+}
+/* Перестраховка для мобильного меню */
+.mobile-menu .menu-list,
+.mobile-menu .menu-list li.menu-item {
+    border: none !important;
+    outline: none !important;
+    border-top: none !important;
+    border-bottom: none !important;
+}
 @media (max-width: 1245px) {
   .call-action {
     display: none;
@@ -1885,4 +1901,22 @@ scale:1.4;
   .description {
     font-size:small;
   }
+}
+
+.mobile-menu-close::after,
+.header-burger::after {
+  display: none !important;
+}
+
+.mobile-menu-close:hover::after,
+.header-burger:hover::after {
+  animation: none !important;
+  opacity: 0 !important;
+}
+
+a:focus,
+button:focus,
+.menu-item a:focus,
+.mobile-menu .menu-item a:focus {
+    outline: none;
 }
