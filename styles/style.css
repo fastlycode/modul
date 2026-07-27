@@ -3,7 +3,10 @@
   padding: 0;
   box-sizing: border-box;
 }
-
+body.no-scroll {
+    overflow: hidden;
+    padding-right: var(--scrollbar-width, 0px);
+}
 .logo {
   background-color: #171717;
   border-radius: 10px;

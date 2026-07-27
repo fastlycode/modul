@@ -136,17 +136,32 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     btnUp.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
+    // ------------------------------------------------------------------
+    //  НОВАЯ ЛОГИКА МОБИЛЬНОГО МЕНЮ С БЛОКИРОВКОЙ СКРОЛЛА
+    // ------------------------------------------------------------------
     const burger = document.querySelector('.header-burger');
     const mobileMenu = document.querySelector('.mobile-menu');
+
+    // Вспомогательная функция для получения ширины скроллбара
+    function getScrollbarWidth() {
+        return window.innerWidth - document.documentElement.clientWidth;
+    }
 
     function toggleMenu(open) {
         if (open === undefined) {
             open = !mobileMenu.classList.contains('active');
         }
         if (open) {
+            // Открываем меню – блокируем скролл, компенсируем ширину скроллбара
+            const scrollWidth = getScrollbarWidth();
+            document.body.style.overflow = 'hidden';
+            document.body.style.paddingRight = scrollWidth + 'px';
             mobileMenu.classList.add('active');
             burger?.classList.add('open-menu');
         } else {
+            // Закрываем меню – восстанавливаем скролл и убираем отступ
+            document.body.style.overflow = '';
+            document.body.style.paddingRight = '';
             mobileMenu.classList.remove('active');
             burger?.classList.remove('open-menu');
         }
@@ -180,6 +195,7 @@ document.addEventListener('DOMContentLoaded', function() {
             toggleMenu(false);
         });
     }
+    // ------------------------------------------------------------------
 
     document.querySelectorAll('a[data-link]').forEach(link => {
         link.addEventListener('click', function(e) {
